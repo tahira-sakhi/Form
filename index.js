@@ -1,34 +1,34 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const path = require('path');
-const mysql = require('mysql');
+const express = require("express");
+const bodyParser = require("body-parser");
+const multer = require("multer");
+const path = require("path");
+const mysql = require("mysql");
 
 const app = express();
-const PORT = 3003;
+const PORT = 3000;
 
 const upload = multer();
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 
 // Create a connection pool
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
+  host: "localhost",
+  user: "root",
   // password: 'tahi@12',
-  database: 'sign_up'
+  database: "sign_up",
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/index.html'));
+  res.sendFile(path.join(__dirname + "/public/index.html"));
 });
 
- app.get("/sign", (req, res) => {
+app.get("/sign", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "user.html"));
 });
 
-app.post('/api/sign_up', upload.none(), (req, res) => {
+app.post("/api/sign_up", upload.none(), (req, res) => {
   let data = req.body;
   console.log(data);
 
@@ -40,8 +40,16 @@ app.post('/api/sign_up', upload.none(), (req, res) => {
       return;
     }
 
-    let query = 'INSERT INTO users(firstname, lastname, email, dob, phone, password) VALUES (?, ?, ?, ?, ?, ?)';
-    let values = [data.firstname, data.lastname, data.email, data.dob, data.phone, data.password];
+    let query =
+      "INSERT INTO users(firstname, lastname, email, dob, phone, password) VALUES (?, ?, ?, ?, ?, ?)";
+    let values = [
+      data.firstname,
+      data.lastname,
+      data.email,
+      data.dob,
+      data.phone,
+      data.password,
+    ];
 
     // Execute the SQL query
     connection.query(query, values, (err, result) => {
@@ -51,8 +59,8 @@ app.post('/api/sign_up', upload.none(), (req, res) => {
         console.log(err);
         res.status(500).send("Error executing SQL query");
       } else {
-        console.log('Data inserted successfully');
-        res.send('Data submitted successfully');
+        console.log("Data inserted successfully");
+        res.send("Data submitted successfully");
       }
     });
   });
