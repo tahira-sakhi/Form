@@ -1,0 +1,41 @@
+name: Express.js CI/CD
+
+on:
+  push:
+    branches:
+      - production  # Adjust branch name as needed
+  pull_request:
+    branches:
+      - production  # Adjust branch name as needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Test
+      run: npm test
+
+    - name: Release
+      run: |
+        # Customize release steps if needed
+        echo "Release steps go here"
+
+    - name: Deploy
+      run: |
+        # Customize deployment steps if needed
+        echo "Deployment steps go here"
