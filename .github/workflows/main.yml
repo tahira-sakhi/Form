@@ -1,16 +1,16 @@
 name: CI
-​
+
 on:
-    push:
-        branches: [ master ]
+  push:
+    branches: [ master ]
     
 jobs:
-    deploy:
-        runs-on: self-hosted
+  deploy:
+    runs-on: self-hosted
     
     strategy: 
-        matrix:
-            node-version: [12.x]
+      matrix:
+        node-version: [12.x]
             
     steps:
       - uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
 
-    - name: Deploy
-      run: |
-        # Customize deployment steps if needed
-        echo "Deployment steps go here"
+      - name: Deploy
+        run: |
+          # Customize deployment steps if needed
+          echo "Deployment steps go here"
