@@ -1,14 +1,9 @@
 $("#signup").submit(function (event) {
   event.preventDefault();
-  ////////collect signupData////////////
-  var signupData = new FormData();
-  signupData.append("firstname", $("#firstname").val());
-  signupData.append("lastname", $("#lastname").val());
-  signupData.append("email", $("#email").val());
-  signupData.append("dob", $("#dob").val());
-  signupData.append("phone", $("#phone").val());
-  signupData.append("password", $("#password").val());
-  console.log(signupData);
+
+  // Collect signupData using FormData
+  var signupData = new FormData(this); // This way, it automatically picks up all input fields
+  console.log("Form Data:", signupData);
 
   $.ajax({
     type: "POST",
@@ -17,17 +12,19 @@ $("#signup").submit(function (event) {
     processData: false,
     contentType: false,
     success: function (response) {
+      console.log("Success response:", response);
       alert("Signup page submitted successfully!");
       emptyForm();
       // window.location.href = "/sign_up";
     },
-    error: function () {
+    error: function (xhr, status, error) {
+      console.error("Error response:", status, error);
       alert("Error submitting the signup page");
     },
   });
 });
 
-function emptyForm(){
-        let form = document.getElementById("signup");
-        form.reset();
+function emptyForm() {
+  let form = document.getElementById("signup");
+  form.reset();
 }
